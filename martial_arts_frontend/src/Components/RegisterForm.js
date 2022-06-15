@@ -40,7 +40,7 @@ export default class RegisterForm extends React.Component
         let u = this.state.user;
         const emailRegex = ".+@.+\\..+";
         if(u.password != u.passwordConfirm) alert("Passwords do not match.");
-        if(!u.email.match(emailRegex)) alert("Invalid email.");
+        else if(!u.email.match(emailRegex)) alert("Invalid email.");
         else
         {
             this.props.postUser(u.username, u.password, u.firstName, u.lastName, u.email);

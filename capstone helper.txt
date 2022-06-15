@@ -1,0 +1,86 @@
+Favorite:
+ techId
+ username
+
+Message:
+ id
+ username
+ datePosted
+ contents
+ recipient
+
+Technique:
+ id
+ creator
+ name
+ type
+ description
+ video
+
+User:
+ username
+ password
+ firstName
+ lastName
+ email
+
+
+Library:
+ Post user technique. 
+ Get all user favorites by username.
+ Get all user techniques. 
+ Get all foreign user favorites when foreign user searched by first and last name.
+ Delete user favorite. 
+ Delete user technique. 
+Forum:
+ Post new user favorite.
+ Get all the popular techniques. 
+ Get the top 10 new techniques. 
+About:
+ None needed.
+DevBlog:
+ Get all messages with "devblog" as its recipient.
+Feedback:
+ Post messages with "feedback" as its recipient.
+Login:
+ Select all user details where the username and password match a user.
+Register:
+ Post new user.
+Error
+ None needed.
+
+
+
+Technique controller ("/technique"):
+Post user technique. (creator, name, type, description, video)
+Get all user techniques by username. (/{username})
+Get popular techniques. (/popular)
+Get top 10 newest techniques. (/latest)
+Delete user technique by id. (/{id})
+
+Message controller ("/message"):
+Post message. (username, contents, recipient)
+Get by recipient. (/received/{username})
+
+User ("/user"):
+Post user. (username, password, firstName, lastName, email)
+Post user favorite. (/fav/{username}/{id})
+Get all user favorites by username. (/fav/{username})
+Get all user favorites by first and last name. (/fav/{firstName}/{lastName})
+Get user by username and password. (/{username}/{password})
+Delete user favorite by username and id. (/fav/{username}/{id})
+
+
+
+insert into User (username, password, ) values ("glaisdalelooper", "password", "Ali", "Strickland");
+insert into User values ("commondalemarble", "password", "Beatriz", "Mejia");
+insert into User values ("kingstonbrass", "password", "Charles", "Palmer");
+insert into User values ("woolersetaceous", "password", "Diya", "Alexander");
+insert into User values ("tockettsbedstraw", "password", "Eric", "Mann");
+insert into User values ("puckseypeppered", "password", "Fatima", "Wise");
+insert into User values ("nadensilurian", "password", "Gabriel", "Thornton");
+insert into User values ("bledgespectacle", "password", "Hanna", "Khan");
+insert into User values ("badgworthyhorned", "password", "Diya", "Kaye");
+insert into User values ("watendlathpinion", "password", "Gabriel", "Rossi");
+
+insert into User values ("feedback", )
