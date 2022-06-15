@@ -1,0 +1,98 @@
+package com.alijah.martial_arts_app.controllers;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.alijah.martial_arts_app.models.Technique;
+import com.alijah.martial_arts_app.models.User;
+import com.alijah.martial_arts_app.repositories.TechniqueRepository;
+import com.alijah.martial_arts_app.repositories.UserRepository;
+
+//This class handles the User models on the /api/user end-point, returning JSON.
+@RestController
+@RequestMapping(path="/api/user")
+public class UserController {
+
+	//The below allows me to use the queries defined in the UserRepository interface.
+	@Autowired
+	private UserRepository userRepo;
+	
+	//The below allows me to use the queries defined in the TechniqueRepository interface.
+	//Techniques are needed in this controller as-well, as users have many techniques and many favorites.
+	@Autowired
+	private TechniqueRepository techRepo;
+
+	@PostMapping
+	public ResponseEntity<User> addUser(@RequestBody User user)
+	{
+		PasswordEncoder passEncoder = new BCryptPasswordEncoder();
+		String encodedPass = passEncoder.encode(user.getPassword());
+		user.setPassword(encodedPass);
+		System.out.println(encodedPass);
+		return ResponseEntity.ok(userRepo.save(user));
+	}
+	
+	//The below adds a technique to a users favorite. This can be done when searching for a foreign user, adding a top technique from the forum page, or adding a new technique from the forum page.
+	@PostMapping(path="/fav/{username}/{id}")
+	public ResponseEntity<User> addFavorite(@PathVariable String username, @PathVariable Integer id)
+	{
+		Technique foundTech = techRepo.findById(id).orElse(null);
+		User foundUser = userRepo.findById(username).orElse(null);
+		foundUser.getFavorites().add(foundTech);
+		return ResponseEntity.ok(userRepo.save(foundUser));
+	}
+	
+	//This gets a users favorites, to be displayed in their library.
+	@GetMapping(path="/fav/{username}")
+	public HashMap<String, List<Technique>> getUserFavorites(@PathVariable(value="username") String user) {
+		
+		List<Technique> userTechs = userRepo.findById(user).get().getFavorites();
+		HashMap<String, List<Technique>> result = new HashMap<String, List<Technique>>();
+		for(Technique t : userTechs)
+		{
+			if(!result.containsKey(t.getType())) result.put(t.getType(), new ArrayList<Technique>());
+			result.get(t.getType()).add(t);
+		}
+		return result;
+	}
+	
+	//This gets a user by their username and password. BCrypt is used here to make sure the raw entered password is the same as the hashed one in the database.
+	@GetMapping(path="/{username}/{password}")
+	public User getUser(@PathVariable String username, @PathVariable String password)
+	{
+		PasswordEncoder passEncoder = new BCryptPasswordEncoder();
+		User user = userRepo.findById(username).orElse(null);
+		if(passEncoder.matches(password, user.getPassword()))
+		{
+			System.out.println(user);
+			return user;
+		}
+		return null;
+	}
+
+	//The below allows a user to delete one of their technique favorites, from their library page.
+	@DeleteMapping(path="/fav/{username}/{id}")
+	public ResponseEntity<User> deleteFavorite(@PathVariable String username, @PathVariable Integer id)
+	{
+		User target = userRepo.findById(username).get();
+		List<Technique> favs = target.getFavorites();
+		for(int i = 0; i < favs.size(); i++) if(favs.get(i).getId().equals(id)) favs.remove(i);
+		return ResponseEntity.ok(userRepo.save(target));
+	}
+}
