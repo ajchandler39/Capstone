@@ -1,10 +1,14 @@
 
 :root{
     /* #9b000a; #390000;*/
-    --first: #650000;
+    --first: #0B4619;
+    --second: #116530;
+    --third: #FFCC1D;
+    --forth: #E8E8CC;
+    /*--first: #650000;
     --second: #850000;
     --third: #CCB33B;
-    --forth: #AF9500;
+    --forth: #AF9500;*/
     --fifth: #a70000;
     --sixth: #003924;
 }
@@ -38,7 +42,7 @@ body {
 
 .navbar > a:hover {
     background-image: none;
-    background-color: var(--fifth);
+    background-color: var(--first);
 }
 
 .navbar > a:active {
@@ -100,7 +104,7 @@ body > * > div {
 }
 
 .technique:hover {
-    background-color:aliceblue;
+    background-color: var(--forth);
 }
 
 .techHeader, .favHeader {
@@ -108,7 +112,7 @@ body > * > div {
 }
 
 .type > h2:hover {
-    color:aliceblue;
+    color: var(--forth);
     cursor: pointer;
 }
 

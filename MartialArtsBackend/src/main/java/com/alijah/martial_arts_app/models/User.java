@@ -39,7 +39,7 @@ public class User {
 	
 	//One user has many messages. Accessing the below returns an array, list, of this users messages.
 	//Specifying the join column prevents Hibernate from creating a join table, and instead uses the message column "recipient".
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="recipient")
 	private List<Message> receivedMessages;
 
