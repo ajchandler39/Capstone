@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from '../Components/NavBar';
 import LoginForm from '../Components/LoginForm';
+import WelcomeBar from '../Components/WelcomeBar';
 
 export default class Login extends React.Component
 {
@@ -35,8 +36,12 @@ export default class Login extends React.Component
 
     render()
     {
+        let welcome = <div></div>;
+        if(this.props.user.username != "") welcome = <WelcomeBar user={this.props.user}/>;
+
         return(
             <div className="login">
+                {welcome}
                 <NavBar/>
                 <LoginForm getUser={this.getUser} user={this.state.user}/>
             </div>)

@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from '../Components/NavBar';
 import RegisterForm from '../Components/RegisterForm';
+import WelcomeBar from '../Components/WelcomeBar';
 
 export default class Register extends React.Component
 {
@@ -31,8 +32,12 @@ export default class Register extends React.Component
 
     render()
     {
+        let welcome = <div></div>;
+        if(this.props.user.username != "") welcome = <WelcomeBar user={this.props.user}/>;
+
         return(
             <div className="register">
+                {welcome}
                 <NavBar/>
                 <RegisterForm postUser={this.postUser}/>
             </div>)

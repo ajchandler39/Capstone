@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +30,8 @@ import com.alijah.martial_arts_app.repositories.UserRepository;
 @RestController
 @RequestMapping(path="/api/user")
 public class UserController {
+	
+	Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	//The below allows me to use the queries defined in the UserRepository interface.
 	@Autowired
@@ -41,6 +45,7 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<User> addUser(@RequestBody User user)
 	{
+		logger.info("User created.");
 		PasswordEncoder passEncoder = new BCryptPasswordEncoder();
 		String encodedPass = passEncoder.encode(user.getPassword());
 		user.setPassword(encodedPass);
@@ -52,6 +57,7 @@ public class UserController {
 	@PostMapping(path="/fav/{username}/{id}")
 	public ResponseEntity<User> addFavorite(@PathVariable String username, @PathVariable Integer id)
 	{
+		logger.info("User technique created.");
 		Technique foundTech = techRepo.findById(id).orElse(null);
 		User foundUser = userRepo.findById(username).orElse(null);
 		foundUser.getFavorites().add(foundTech);
@@ -90,6 +96,7 @@ public class UserController {
 	@DeleteMapping(path="/fav/{username}/{id}")
 	public ResponseEntity<User> deleteFavorite(@PathVariable String username, @PathVariable Integer id)
 	{
+		logger.info("User favorite deleted.");
 		User target = userRepo.findById(username).get();
 		List<Technique> favs = target.getFavorites();
 		for(int i = 0; i < favs.size(); i++) if(favs.get(i).getId().equals(id)) favs.remove(i);

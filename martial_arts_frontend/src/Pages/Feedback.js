@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from '../Components/NavBar';
 import FeedbackForm from '../Components/FeedbackForm';
+import WelcomeBar from '../Components/WelcomeBar';
 
 export default class Feedback extends React.Component
 {
@@ -26,8 +27,11 @@ export default class Feedback extends React.Component
 
     render()
     {
+        let welcome = <div></div>;
+        if(this.props.user.username != "") welcome = <WelcomeBar user={this.props.user}/>;
         return(
             <div className="feedback">
+                {welcome}
                 <NavBar/>
                 <FeedbackForm postMessage={this.postMessage} user={this.props.user}/>
             </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from '../Components/NavBar';
 import BlogPost from '../Components/BlogPost';
+import WelcomeBar from '../Components/WelcomeBar';
 
 export default class DevBlog extends React.Component
 {
@@ -30,8 +31,12 @@ export default class DevBlog extends React.Component
     render()
     {
         let list = this.blogPostList().reverse();
+        let welcome = <div></div>;
+        if(this.props.user.username != "") welcome = <WelcomeBar user={this.props.user}/>;
+
         return(
             <div className="devblog">
+                {welcome}
                 <NavBar/>
                 <div className = "posts">
                     {list}

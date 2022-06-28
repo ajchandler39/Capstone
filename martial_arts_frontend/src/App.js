@@ -7,6 +7,8 @@ import DevBlog from './Pages/DevBlog';
 import Feedback from './Pages/Feedback';
 import Login from './Pages/Login';
 import Error from './Pages/Error';
+import WelcomeBar from './Components/WelcomeBar'
+import Logout from './Pages/Logout'
 
 export default class App extends React.Component
 {
@@ -18,10 +20,10 @@ export default class App extends React.Component
       apiUrl: "http://" + window.location.hostname + ":8080/api",
       currPath: window.location.pathname,
       user: {
-      username: "aj",
+      username: "",
       password: "",
-      firstName: "alijah",
-      lastName: "chandler"
+      firstName: "",
+      lastName: ""
       }
     }
   }
@@ -37,7 +39,6 @@ export default class App extends React.Component
     for(let prop in tempUser)
     {
       let value = this.getCookie(prop);
-      console.log(value)
       tempUser[prop] = value;
     }
     this.setState({user: tempUser}, console.log(tempUser));
@@ -62,13 +63,14 @@ export default class App extends React.Component
   render()
   {
     console.log(this.state.apiUrl);
-    if(this.state.currPath === "/" || this.state.currPath === "/devblog") return <DevBlog apiUrl={this.state.apiUrl}/>
+    if(this.state.currPath === "/" || this.state.currPath === "/devblog") return <DevBlog apiUrl={this.state.apiUrl} user={this.state.user}/>
     else if(this.state.currPath === "/library") return <Library apiUrl={this.state.apiUrl} user={this.state.user}/>
     else if(this.state.currPath === "/forum") return <Forum apiUrl={this.state.apiUrl} user={this.state.user}/>
-    else if(this.state.currPath === "/about") return <About apiUrl={this.state.apiUrl}/>
+    else if(this.state.currPath === "/about") return <About apiUrl={this.state.apiUrl} user={this.state.user}/>
     else if(this.state.currPath === "/feedback") return <Feedback apiUrl={this.state.apiUrl} user={this.state.user}/>
-    else if(this.state.currPath === "/login") return <Login apiUrl={this.state.apiUrl}/>
-    else if(this.state.currPath === "/register") return <Register apiUrl={this.state.apiUrl}/>
+    else if(this.state.currPath === "/login") return <Login apiUrl={this.state.apiUrl} user={this.state.user}/>
+    else if(this.state.currPath === "/register") return <Register apiUrl={this.state.apiUrl} user={this.state.user}/>
+    else if(this.state.currPath === "/logout") return <Logout apiUrl={this.state.apiUrl} user={this.state.user}/>
     else return <Error/>;
   };
 }

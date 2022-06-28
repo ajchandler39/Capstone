@@ -4,6 +4,7 @@ import TechList from '../Components/TechList';
 import TechVideo from '../Components/TechVideo';
 import TechDescription from '../Components/TechDescription';
 import TechForm from '../Components/TechForm'
+import WelcomeBar from '../Components/WelcomeBar';
 
 export default class Library extends React.Component
 {
@@ -39,6 +40,7 @@ export default class Library extends React.Component
     componentDidUpdate(prevProps) {
         if(this.props.user != prevProps.user)
         {
+            console.log(this.props.user);
             this.setState({user: this.props.user})
             this.getAllUserFavorites(this.props.user.username);
             this.getAllUserTechniques(this.props.user.username);
@@ -75,11 +77,12 @@ export default class Library extends React.Component
             .then(data => this.setState({favs: data}));
     }
 
-    getAllUserTechniques(username)
+    async getAllUserTechniques(username)
     {
-        fetch(this.props.apiUrl + "/technique/" + username)
+        await fetch(this.props.apiUrl + "/technique/" + username)
             .then(response => response.json())
             .then(data => this.setState({techs: data}));
+        console.log(this.state.data)
     }
 
     async getAllForeignUserTechniques(first, last)
@@ -134,9 +137,13 @@ export default class Library extends React.Component
         if(status == 500 || status == 404) display = <TechList apiUrl={this.props.apiUrl} setSelectedTechnique={this.setSelectedTechnique} getTechniques={{favs: this.state.favs, techs: this.state.techs}} className={"libraryTechList"} deleteUserFavorite={this.deleteUserFavorite}
         deleteUserTechnique={this.deleteUserTechnique} user={this.props.user}/>
         else display = <TechList apiUrl={this.props.apiUrl} setSelectedTechnique={this.setSelectedTechnique} getTechniques={{favs: {}, techs: this.state.foreignTechs}} className={"foreignLibraryTechList"} user={this.props.user}/>
-        
+
+        let welcome = <div></div>;
+        if(this.props.user.username != "") welcome = <WelcomeBar user={this.props.user}/>;
+
         return(
         <div className="library">
+            {welcome}
             <NavBar page={"Library"}/>
             <div className="userLibrary">
                 <div className="userSearchAndTechs">

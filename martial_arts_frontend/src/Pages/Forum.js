@@ -3,6 +3,7 @@ import NavBar from '../Components/NavBar';
 import TechList from '../Components/TechList';
 import TechVideo from '../Components/TechVideo';
 import TechDescription from '../Components/TechDescription';
+import WelcomeBar from '../Components/WelcomeBar';
 
 export default class Forum extends React.Component
 {
@@ -64,8 +65,11 @@ export default class Forum extends React.Component
 
     render()
     {
+        let welcome = <div></div>;
+        if(this.props.user.username != "") welcome = <WelcomeBar user={this.props.user}/>;
         return(
         <div className="forum">
+            {welcome}
             <NavBar page={"Forum"}/>
             <div className="userLibrary">
                 <TechList apiUrl={this.props.apiUrl} setSelectedTechnique={this.setSelectedTechnique} getTechniques={this.state.popular} className={"popularTechList"} postUserFavorite={this.postUserFavorite} user={this.props.user}/>

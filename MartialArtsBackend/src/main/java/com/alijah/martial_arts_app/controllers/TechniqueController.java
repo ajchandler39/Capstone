@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,6 +32,7 @@ import com.alijah.martial_arts_app.repositories.UserRepository;
 @RequestMapping(path="/api/technique")
 public class TechniqueController 
 {
+	Logger logger = LoggerFactory.getLogger(TechniqueController.class);
 	//The below allows me to use the queries defined in the TechniqueRepository interface.
 	@Autowired
 	private TechniqueRepository techRepo;
@@ -47,6 +50,7 @@ public class TechniqueController
 			@RequestParam String description, 
 			@RequestParam MultipartFile video)
 	{
+		logger.info("Technique created.");
 		byte[] convertedVid = null; try { convertedVid = video.getBytes(); } catch (IOException e) { e.printStackTrace(); }
 		
 		User user = userRepo.findById(creator).orElse(null);
@@ -123,6 +127,7 @@ public class TechniqueController
 			@RequestParam(required = false) String description, 
 			@RequestParam(required = false) MultipartFile video)
 	{
+		logger.info("Technique updated.");
 		byte[] convertedVid = null;
 		//for some reason video.getBytes() will stop the program if the exception of "can't call .getBytes()" is called.
 		if(video != null) try { convertedVid = video.getBytes(); } catch (IOException e) { }
@@ -141,6 +146,7 @@ public class TechniqueController
 	@DeleteMapping(path="/{id}")
 	ResponseEntity<Technique> deleteTechnique(@PathVariable(value="id") Integer id)
 	{		
+		logger.info("Technique deleted.");
 		Technique deleted = techRepo.findById(id).orElse(null);
 		techRepo.deleteById(id);
 		return ResponseEntity.ok(deleted);

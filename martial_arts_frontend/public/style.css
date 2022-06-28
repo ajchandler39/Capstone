@@ -18,6 +18,20 @@ body {
     background-size: cover;
 }
 
+.welcome {
+    color:#ffbd00;
+    display: inline-flex;
+    justify-content: space-around;
+    background-color:#116530;
+    border: 4px solid black;
+    width: 20%;
+    border-radius: 10%;
+}
+
+.welcome > a:hover {
+ color: lightblue;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -50,6 +64,14 @@ body {
     background-color: var(--first);
 }
 
+body > * {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
 body > * > div {
     width: 100%;
     display: flex;
@@ -62,7 +84,7 @@ body > * > div {
     display: flex;
 }
 
-.userLibrary > *, .posts > *, .about > p, .content, .errorMsg {
+.userLibrary > *, .posts > *, .about > p, .content, .errorMsg, .logout {
     margin: 5px;
     padding: 15px;
     background-color: var(--second);

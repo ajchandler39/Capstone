@@ -1,5 +1,6 @@
 import React from 'react';
 import NavBar from '../Components/NavBar';
+import WelcomeBar from '../Components/WelcomeBar';
 
 export default class About extends React.Component
 {
@@ -11,8 +12,12 @@ export default class About extends React.Component
 
     render()
     {
+        let welcome = <div></div>;
+        if(this.props.user.username != "") welcome = <WelcomeBar user={this.props.user}/>;
+        
         return(
         <div className="about">
+            {welcome}
             <NavBar/>
             <div className="content">
                 <h2>

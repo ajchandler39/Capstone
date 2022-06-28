@@ -19,8 +19,6 @@ export default class TechList extends React.Component
         let result = [];
         if(this.props.className == "libraryTechList")
         {
-
-
             let techObj = this.props.getTechniques.techs;
             let favObj = this.props.getTechniques.favs;
             result.push(<h1 className="techHeader">Techniques:</h1>)
@@ -63,6 +61,8 @@ export default class TechList extends React.Component
     render()
     {
         let list = this.typeList();
+        
+        console.log(this.props);
         return(
         <div >
             {list}
@@ -85,7 +85,7 @@ class Type extends React.Component
 
     techniqueList()
     {
-        console.log(this.props.className)
+        console.log(this.props.techs)
         if(this.props.className == "foreignLibraryTypes") return this.props.techs.map(e => <Technique key={e.id} tech={e} setSelectedTechnique={this.props.setSelectedTechnique} className={"foreignLibraryTechs"} postUserFavorite={this.props.postUserFavorite} user={this.props.user}/>)
         else if(this.props.className == "popularTypes") return this.props.techs.map(e => <Technique key={e.id} tech={e} setSelectedTechnique={this.props.setSelectedTechnique} className={"popularTechs"} postUserFavorite={this.props.postUserFavorite} user={this.props.user}/>)
         else if(this.props.className == "techTypes") return this.props.techs.map(e => <Technique key={e.id} tech={e} setSelectedTechnique={this.props.setSelectedTechnique} className={"techs"} deleteUserTechnique={this.props.deleteUserTechnique} user={this.props.user}/>)
